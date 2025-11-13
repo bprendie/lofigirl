@@ -5,6 +5,9 @@ from textual.screen import Screen
 from textual import events
 import subprocess
 import yt_dlp
+import os
+import argparse
+from pathlib import Path
 
 PRESETS = [
     {"name": "Lofi Girl", "url": "https://www.youtube.com/watch?v=jfKfPfyJRdk"},
@@ -12,6 +15,10 @@ PRESETS = [
     {"name": "Christmas Lofi", "url": "https://www.youtube.com/watch?v=C4qJeIjNd2U"},
     {"name": "Jazz Lofi", "url": "https://www.youtube.com/watch?v=HuFYqnbVbzY"},
 ]
+
+# Correctly locate the CSS file relative to the app's path
+APP_DIR = Path(__file__).parent
+CSS_PATH = APP_DIR / "lofigirl.css"
 
 class QuitScreen(Screen):
     """Screen with a dialog to confirm quitting."""
@@ -45,7 +52,7 @@ class PresetButton(Button):
 class LofiTUI(App):
     """A Textual TUI for playing lofi streams with mpv."""
 
-    CSS_PATH = "lofigirl.css"
+    CSS_PATH = str(CSS_PATH)
     BINDINGS = [
         ("d", "toggle_dark", "Toggle dark mode"),
         ("q", "request_quit", "Quit"),
@@ -99,7 +106,33 @@ class LofiTUI(App):
         """Push the quit screen."""
         self.push_screen(QuitScreen())
 
+def main():
+    """The main entry point for the application."""
+    parser = argparse.ArgumentParser(description="A Textual TUI for playing lofi streams with mpv.")
+    parser.add_argument("--uninstall", action="store_true", help="Remove the application data directory.")
+    args = parser.parse_args()
 
-if __name__ == "__main__":
+    data_dir = Path.home() / ".local" / "share" / "omarchy"
+    bin_dir = data_dir / "bin"
+
+    if args.uninstall:
+        print(f"Uninstalling... removing {data_dir}")
+        # Here you would add the logic to remove the directory
+        # For now, we'll just print a message
+        import shutil
+        if data_dir.exists():
+            shutil.rmtree(data_dir)
+            print(f"Removed {data_dir}")
+        else:
+            print("Data directory not found.")
+        return
+
+    if not bin_dir.exists():
+        print(f"Creating directory: {bin_dir}")
+        bin_dir.mkdir(parents=True, exist_ok=True)
+
     app = LofiTUI()
     app.run()
+
+if __name__ == "__main__":
+    main()

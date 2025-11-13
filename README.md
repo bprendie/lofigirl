@@ -20,32 +20,82 @@ A Textual TUI (Terminal User Interface) for playing YouTube lofi streams directl
 
 ## Installation
 
+
+
 ### Prerequisites
+
+
 
 Before you begin, ensure you have the following installed on your system:
 
-* **Python 3:** The application is written in Python.
-* **`mpv`:** A free, open-source, and cross-platform media player. Install it using your system's package manager (e.g., `sudo apt install mpv` on Debian/Ubuntu, `sudo pacman -S mpv` on Arch Linux).
 
-### Setup
 
-1.  **Clone the repository:**
+*   **Python 3:** The application is written in Python.
+
+*   **`pipx`:** A tool to install and run Python applications in isolated environments. You can install it with `pip install --user pipx`.
+
+*   **`mpv`:** A free, open-source, and cross-platform media player. Install it using your system's package manager (e.g., `sudo apt install mpv` on Debian/Ubuntu, `sudo pacman -S mpv` on Arch Linux).
+
+
+
+### From Local Source
+
+
+
+1.  **Build and install the package:**
+
+    Navigate to the project's root directory and run the following command:
+
     ```bash
-    git clone [https://github.com/your-username/lofitui.git](https://github.com/your-username/lofitui.git)
-    cd lofitui
-    ```
-    (Remember to replace `your-username/lofitui.git` with your actual repository URL)
 
-2.  **Install Python dependencies:**
-    The project uses a virtual environment for managing dependencies.
-    ```bash
-    ./run.sh
+    pipx install .
+
     ```
-    The `run.sh` script will automatically create a virtual environment, install the necessary Python packages (listed in `requirements.txt`), and then launch the application.
+
+
 
 ## Usage
 
-To run the LofiTUI, simply execute the `run.sh` script:
+
+
+Once installed, you can run the application by simply typing:
+
+
 
 ```bash
-./run.sh
+
+lofigirl
+
+```
+
+
+
+## Uninstallation
+
+
+
+To uninstall the application, you can use `pipx`:
+
+
+
+```bash
+
+pipx uninstall omarchy-lofigirl
+
+```
+
+
+
+This will remove the application and its isolated environment. To remove the data directory created by the application, run the following command before uninstalling:
+
+
+
+```bash
+
+lofigirl --uninstall
+
+```
+
+
+
+
