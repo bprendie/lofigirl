@@ -31,10 +31,9 @@ Before you begin, ensure you have the following installed on your system:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/lofitui.git](https://github.com/your-username/lofitui.git)
+    git clone https://github.com/bprendie/lofigirl.git
     cd lofitui
     ```
-    (Remember to replace `your-username/lofitui.git` with your actual repository URL)
 
 2.  **Install Python dependencies:**
     The project uses a virtual environment for managing dependencies.
