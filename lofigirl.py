@@ -5,13 +5,48 @@ from textual.screen import Screen
 from textual import events
 import subprocess
 import yt_dlp
+import json
+from pathlib import Path
+from typing import List, Dict
 
-PRESETS = [
+DEFAULT_PRESETS: List[Dict[str, str]] = [
     {"name": "Lofi Girl", "url": "https://www.youtube.com/watch?v=jfKfPfyJRdk"},
     {"name": "Synthwave Lofi", "url": "https://www.youtube.com/watch?v=4xDzrJKXOOY"},
     {"name": "Christmas Lofi", "url": "https://www.youtube.com/watch?v=C4qJeIjNd2U"},
     {"name": "Jazz Lofi", "url": "https://www.youtube.com/watch?v=HuFYqnbVbzY"},
 ]
+
+PRESET_FILE = Path(__file__).with_name("presets.json")
+
+
+def load_presets() -> List[Dict[str, str]]:
+    """Load presets from presets.json with a graceful fallback."""
+    try:
+        with PRESET_FILE.open("r", encoding="utf-8") as f:
+            presets = json.load(f)
+
+        if not isinstance(presets, list):
+            raise ValueError("Preset data must be a list")
+
+        cleaned = []
+        for preset in presets:
+            if (
+                isinstance(preset, dict)
+                and isinstance(preset.get("name"), str)
+                and isinstance(preset.get("url"), str)
+                and preset["name"].strip()
+                and preset["url"].strip()
+            ):
+                cleaned.append({"name": preset["name"].strip(), "url": preset["url"].strip()})
+        if cleaned:
+            return cleaned
+        raise ValueError("No valid presets found")
+    except Exception as error:
+        print(f"Falling back to default presets: {error}")
+        return DEFAULT_PRESETS.copy()
+
+
+PRESETS = load_presets()
 
 class QuitScreen(Screen):
     """Screen with a dialog to confirm quitting."""
@@ -87,8 +122,7 @@ class LofiTUI(App):
                 
                 subprocess.run(["mpv", "--vo=tct", url])
             except Exception as e:
-                # If something goes wrong, we'll just print the error for now
-                # In a real app, you'd want to show a proper error dialog
+                # If something goes wrong, print the error
                 print(e)
 
     def action_toggle_dark(self) -> None:

@@ -6,6 +6,7 @@ A Textual TUI (Terminal User Interface) for playing YouTube lofi streams directl
 ## Features
 
 * **Curated Presets:** Easily switch between popular lofi streams like Lofi Girl, Synthwave, Christmas, and Jazz.
+* **Editable Preset List:** Update `presets.json` to add, remove, or reorder any streams you like.
 * **Custom URL Playback:** Paste any YouTube URL to play your own chosen stream.
 * **Terminal-based Video:** Renders video as colored ASCII art using `mpv`'s `--vo=tct` output.
 * **Audio Playback:** Streams audio in the background via `mpv`.
@@ -38,14 +39,17 @@ Before you begin, ensure you have the following installed on your system:
 
 2.  **Install Python dependencies:**
     The project uses a virtual environment for managing dependencies.
-    ```bash
-    ./run.sh
-    ```
-    The `run.sh` script will automatically create a virtual environment, install the necessary Python packages (listed in `requirements.txt`), and then launch the application.
+```bash
+./run.sh
+```
+
+### Customizing presets
+
+Edit `presets.json` to add new entries or adjust the order. Each preset must include a `name` and `url`. Restart the app after saving the file to load the updated list. 
 
 ## Usage
 
-To run the LofiTUI, simply execute the `run.sh` script:
+To run the LofiTUI, simply execute the `run.sh` script: The `run.sh` script will automatically create a virtual environment, install the necessary Python packages (listed in `requirements.txt`), and then launch the application.
 
 ```bash
 ./run.sh
